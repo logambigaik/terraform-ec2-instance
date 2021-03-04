@@ -1,0 +1,60 @@
+resource "aws_vpc" "main" {
+  cidr_block ="10.0.0.0/16"
+
+  tags = {
+     Name = "main"
+  }
+}
+
+# Internet Gateway
+resource "aws_internet_gateway" "main_igw" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "main_internet_gateway"
+  }
+}
+
+#Subnets : public
+
+resource "aws_subnet" "public" {
+  vpc_id = aws_vpc.main.id
+  cidr_block = "10.0.6.0/24"
+  availability_zone = "eu-west-2b"
+  map_public_ip_on_launch = "true"    #to create public ec2-instanc. if not included,public ip will be empty
+
+  tags = {
+    Name = "main_subnet"
+  }
+}
+
+# Route table: attach Internet Gateway
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.main.id
+  route  {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main_igw.id
+  }
+  tags = {
+    Name = "publicRouteTable"
+  }
+}
+
+# Route table association with public subnets
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
+#aws instance:
+resource "aws_instance" "web-server"{
+  ami  = "ami-0ffd774e02309201f"
+  instance_type = "t2.micro"
+  #vpc_id = aws_vpc.main.id
+  subnet_id =  aws_subnet.public.id
+  availability_zone = "eu-west-2b"
+  #public_ip = "18.133.241.100"
+  key_name = "Archu-acc"
+  tags = {
+         Name = "ec2-Instance1 with newly created vpc"
+    }
+}
