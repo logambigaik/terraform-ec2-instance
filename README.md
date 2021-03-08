@@ -3,4 +3,6 @@
 
 # Please refer the below URL to refer terraform
 
+  export PATH= $PATH: /opt/
+
 https://github.com/logambigaik/terraform-ec2-instance/tree/928630d252d7a1f245052ec2e9b5a68c20c8ce92
