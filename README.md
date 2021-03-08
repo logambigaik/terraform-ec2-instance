@@ -10,7 +10,7 @@
     cd /opt
     wget https://releases.hashicorp.com/terraform/0.14.7/terraform_0.14.7_linux_amd64.zip
     unzip terraform_0.14.7_linux_amd64.zip
-    export PATH=$PATH:/opt
+    export PATH=$PATH:/opt/
     echo $PATH
     echo 'terraform version ' terraform --version
     echo "AWS CONFIGURE OUTPUT"
@@ -30,3 +30,6 @@
   export PATH= $PATH: /opt/
 
 https://github.com/logambigaik/terraform-ec2-instance/tree/928630d252d7a1f245052ec2e9b5a68c20c8ce92
+
+
+https://github.com/budding-devops-blah/devops-practice/tree/learning/Terraform
